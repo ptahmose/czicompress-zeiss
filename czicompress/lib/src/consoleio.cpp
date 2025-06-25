@@ -73,9 +73,8 @@ bool ConsoleIo::IsStdOutATerminal() const
 #elif CZICOMPRESS_UNIX_ENVIRONMENT
   return this->is_terminal_output_;
 #else
-  #error Unsupported environment
+  return false;  // Unsupported environment
 #endif
-
 }
 
 void ConsoleIo::SetColor(ConsoleColor foreground, ConsoleColor background)
@@ -90,8 +89,6 @@ void ConsoleIo::SetColor(ConsoleColor foreground, ConsoleColor background)
   {
     this->SetTextColorAnsi(foreground, background);
   }
-#else
-  #error Unsupported environment
 #endif
 }
 
