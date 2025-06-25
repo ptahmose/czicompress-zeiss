@@ -25,25 +25,12 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      # The linters run into trouble because this include file is missing in the repository, it is
-      # instead created by the CMake build process. For sake of simplicity, we generate this file
-      # here, so that the linters can run without any issues.
-      - name: Generate CZICompress_Config.h
+      - name: Use CMake to configure code
         run: |
-          mkdir -p .megalinter-config/include
-          cat <<'EOF' > .megalinter-config/include/CZICompress_Config.h
-          #pragma once
-
-          #define CZICOMPRESS_UNIX_ENVIRONMENT 1
-          #define CZICOMPRESS_WIN32_ENVIRONMENT 0
-
-          #define CZICOMPRESS_VERSION_MAJOR "0"
-          #define CZICOMPRESS_VERSION_MINOR "0"
-          #define CZICOMPRESS_VERSION_PATCH "0"
-          #define CZICOMPRESS_VERSION_TWEAK "0"
-          #define CZICOMPRESS_VERSION_PATCH_STR "0"
-          #define CZICOMPRESS_VERSION_TWEAK_STR "0"
-          EOF
+          cd czicompress
+          mkdir -p build
+          cd build
+          cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
 
       # MegaLinter
       - name: MegaLinter
@@ -63,7 +50,8 @@ jobs:
           CPP_CPPCHECK_ARGUMENTS: >
             --language=c++
             --std=c++17
-            -I.megalinter-config/include
+            --project=czicompress/build/compile_commands.json 
+            -i_deps
 
       # Upload MegaLinter artifacts
       - name: Archive production artifacts
