@@ -40,7 +40,7 @@ jobs:
           }
           - {
             name: ubuntu-package-off,
-            os: ubuntu-20.04,  # we want to use an older version in order to increase likelihood that binaries work on other distros
+            os: ubuntu-22.04,  # we want to use an older version in order to increase likelihood that binaries work on other distros
             platform: x64-linux,
             package: OFF,
             path-cache: "/usr/local/share/vcpkg/installed",
@@ -53,7 +53,7 @@ jobs:
             config:
               {
                 name: ubuntu-package-off,
-                os: ubuntu-20.04,
+                os: ubuntu-22.04,
                 platform: x64-linux,
                 package: OFF,
                 path-cache: "/usr/local/share/vcpkg/installed",
@@ -115,7 +115,7 @@ jobs:
 
       # gather the binaries
       - name: Prepare Linux binaries
-        if: ${{ (matrix.config.os == 'ubuntu-20.04') && (matrix.build == 'Release') }}
+        if: ${{ (matrix.config.os == 'ubuntu-22.04') && (matrix.build == 'Release') }}
         shell: bash
         run: |
           cp ./build/app/czicompress ./build/capi/libczicompressc.so ./czicompress-${{env.name}}/

@@ -2,14 +2,14 @@
 #
 # SPDX-License-Identifier: MIT
 
-cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 
 cmake_policy(SET CMP0091 NEW) # enable new "MSVC runtime library selection" (https://cmake.org/cmake/help/latest/variable/CMAKE_MSVC_RUNTIME_LIBRARY.html)
 
 # Note that the CMake-variables <Projectname>_VERSION_MAJOR, <Projectname>_VERSION_MINOR, ... are defined by this statement,
 #  which are used in the build (so that - if changing the name here, change also the usage of those variables).
 project ("czicompress"
-         VERSION 0.5.4)
+         VERSION 0.5.5)
 
 set(czicompress_VERSION_PATCH_FLAGS "")
 set(czicompress_VERSION_TWEAK_FLAGS "")
