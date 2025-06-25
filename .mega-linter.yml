@@ -15,7 +15,7 @@ DISABLE_ERRORS_LINTERS:
 DISABLE_LINTERS:
   - REPOSITORY_TRIVY  # this linter seems currently broken, so we disable it here for now
   - C_CPPCHECK
-  - REPOSITORY_CHECKOV 
+  - REPOSITORY_CHECKOV
 CPP_CPPLINT_ARGUMENTS: --verbose=2
 SHOW_ELAPSED_TIME: true
 FILEIO_REPORTER: false
