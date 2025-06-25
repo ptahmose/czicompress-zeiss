@@ -32,11 +32,24 @@ jobs:
           cd build
           cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
 
-      - name: Filter compile_commands.json
+      - name: Extract include paths and defines for CZIcompress.cpp
+        id: extract_flags
         run: |
-            set -e
-            jq '[ .[] | select(.file | test("_deps") | not) ]' czicompress/build/compile_commands.json > czicompress/build/filtered_compile_commands.json
+        echo "Parsing compile_commands.json for CZIcompress.cpp"
 
+        # Extract the command line for the file
+        COMPILE_COMMAND=$(jq -r '.[] | select(.file | test("CZIcompress\\.cpp$")) | .command' czicompress/build/compile_commands.json)
+
+        echo "Found compile command:"
+        echo "$COMPILE_COMMAND"
+
+        # Extract -I and -D flags
+        FLAGS=$(echo "$COMPILE_COMMAND" | grep -oE '(-I|-isystem|-D)[^ ]+' | tr '\n' ' ')
+    
+        echo "Extracted flags: $FLAGS"
+
+        # Export for next step
+        echo "cppcheck_flags=$FLAGS" >> "$GITHUB_OUTPUT"
 
       # MegaLinter
       - name: MegaLinter
@@ -56,7 +69,7 @@ jobs:
           CPP_CPPCHECK_ARGUMENTS: >
             --language=c++
             --std=c++17
-            --file=czicompress/build/filtered_compile_commands.json 
+            ${{ steps.extract_flags.outputs.cppcheck_flags }}
 
       # Upload MegaLinter artifacts
       - name: Archive production artifacts
