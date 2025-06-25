@@ -46,7 +46,7 @@ jobs:
 
             # Extract -I and -D flags
             FLAGS=$(echo "$COMPILE_COMMAND" | grep -oE '(-I|-isystem|-D)[^ ]+' | tr '\n' ' ')
-    
+
             echo "Extracted flags: $FLAGS"
 
             # Export for next step
@@ -71,7 +71,7 @@ jobs:
             --language=c++
             --std=c++17
             --suppress=normalCheckLevelMaxBranches
-            ${{ steps.extract_flags.outputs.cppcheck_flags }}
+          #  ${{ steps.extract_flags.outputs.cppcheck_flags }}
 
       # Upload MegaLinter artifacts
       - name: Archive production artifacts
