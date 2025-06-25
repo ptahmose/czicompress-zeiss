@@ -28,7 +28,7 @@ jobs:
       - name: Use CMake to configure code
         working-directory: czicompress
         run: |
-          # Create a build directory and run CMake to generate a ""compile_commands.json file".
+          # Create a build directory and run CMake to generate a "compile_commands.json file".
           # CMake configures the project and generates the necessary files for building.
           mkdir -p build
           cd build
