@@ -35,21 +35,21 @@ jobs:
       - name: Extract include paths and defines for CZIcompress.cpp
         id: extract_flags
         run: |
-        echo "Parsing compile_commands.json for CZIcompress.cpp"
+            echo "Parsing compile_commands.json for CZIcompress.cpp"
 
-        # Extract the command line for the file
-        COMPILE_COMMAND=$(jq -r '.[] | select(.file | test("CZIcompress\\.cpp$")) | .command' czicompress/build/compile_commands.json)
+            # Extract the command line for the file
+            COMPILE_COMMAND=$(jq -r '.[] | select(.file | test("CZIcompress\\.cpp$")) | .command' czicompress/build/compile_commands.json)
 
-        echo "Found compile command:"
-        echo "$COMPILE_COMMAND"
+            echo "Found compile command:"
+            echo "$COMPILE_COMMAND"
 
-        # Extract -I and -D flags
-        FLAGS=$(echo "$COMPILE_COMMAND" | grep -oE '(-I|-isystem|-D)[^ ]+' | tr '\n' ' ')
+            # Extract -I and -D flags
+            FLAGS=$(echo "$COMPILE_COMMAND" | grep -oE '(-I|-isystem|-D)[^ ]+' | tr '\n' ' ')
     
-        echo "Extracted flags: $FLAGS"
+            echo "Extracted flags: $FLAGS"
 
-        # Export for next step
-        echo "cppcheck_flags=$FLAGS" >> "$GITHUB_OUTPUT"
+            # Export for next step
+            echo "cppcheck_flags=$FLAGS" >> "$GITHUB_OUTPUT"
 
       # MegaLinter
       - name: MegaLinter
