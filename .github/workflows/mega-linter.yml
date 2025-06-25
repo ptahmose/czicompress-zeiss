@@ -70,6 +70,7 @@ jobs:
           CPP_CPPCHECK_ARGUMENTS: >
             --language=c++
             --std=c++17
+            --suppress=normalCheckLevelMaxBranches
             ${{ steps.extract_flags.outputs.cppcheck_flags }}
 
       # Upload MegaLinter artifacts
